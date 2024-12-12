@@ -7,7 +7,7 @@ pipeline{
     }
     environment {
         SCANNER_HOME=tool 'sonar-scanner'
-        NVD_API_KEY = credentials('owasp')
+       //NVD_API_KEY = credentials('owasp')
     }
     stages {
         stage('clean workspace'){
@@ -42,7 +42,8 @@ pipeline{
         }
         stage('OWASP FS SCAN') {
             steps {
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit --nvdApiKey=${env.NVD_API_KEY}', odcInstallation: 'DP-Check'
+                def nvdApiKey = '65903fa8-385c-4c59-bb7f-8fbdfe149655'
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit --nvdApiKey=${nvdApiKey}', odcInstallation: 'DP-Check'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
